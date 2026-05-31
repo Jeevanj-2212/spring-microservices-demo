@@ -1,0 +1,24 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+            - id: auth_route
+              uri: lb://auth-service
+              predicates:
+                - Path=/auth/**
+
+            - id: welcome_route
+              uri: lb://welcome-service
+              predicates:
+                - Path=/welcome/**
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
