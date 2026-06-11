@@ -2,6 +2,8 @@ package com.example.welcome_service.controller;
 
 import com.example.welcome_service.FiegnClient.AuthClient;
 import com.example.welcome_service.Validators.JwtValidator;
+import com.example.welcome_service.kafkaProducers.KafkaProducerService;
+import org.apache.kafka.clients.producer.KafkaProducer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +21,9 @@ public class WelcomeController {
 
     @Autowired
     private JwtValidator jwtValidator;
+
+    @Autowired
+    private KafkaProducerService kafkaProducer;
 
     @GetMapping("/welcomeTest")
     public String testWelcome(){
@@ -46,6 +51,7 @@ public class WelcomeController {
 
         // 5. Fire the Feign client (Interceptor automatically attaches the token here)
         String status = authClient.getStatus(name);
+        kafkaProducer.publishLoginEvent(name);
 
         return ResponseEntity.ok("The status of " + name + " is " + status);
     }
