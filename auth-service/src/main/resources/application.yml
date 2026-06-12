@@ -4,11 +4,24 @@ server:
 spring:
   application:
     name: auth-service
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: auth-service-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
 
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka/
+
 jwt:
-   secret: thisIsTheSecretKeywhichIsAtLeast32CharactersLong
-   expiration: 1800000
+  secret: thisIsTheSecretKeywhichIsAtLeast32CharactersLong
+  expiration: 1800000
+
+logging:
+  level:
+    org.springframework.kafka: DEBUG
+    org.apache.kafka: DEBUG
