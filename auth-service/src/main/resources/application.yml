@@ -23,5 +23,5 @@ jwt:
 
 logging:
   level:
-    org.springframework.kafka: DEBUG
-    org.apache.kafka: DEBUG
+    org.springframework.kafka: INFO
+    org.apache.kafka: INFO
